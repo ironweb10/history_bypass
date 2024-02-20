@@ -1,0 +1,42 @@
+<html>  
+   <head>
+           <title>Mi unidad - Google Drive</title>
+  <link rel="icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Google_Drive_icon_%282020%29.svg/2295px-Google_Drive_icon_%282020%29.svg.png">
+           <table style="background-color:#FFFFFF">
+  	</head>
+        <body> 
+                <h1 id="h.oz7aa7azqkgd" dir="ltr" class="zfr3Q duRjpb CDt4Ke " style="text-align: center;"><span class="C9DxTc " style="">Bookmarklets</span></h1>
+                <p dir="ltr" class="zfr3Q CDt4Ke " style="text-align: center;"><span class="C9DxTc " style="">How to use bookmarklets???&nbsp;</span></p>
+                <span class="C9DxTc " style="">go to any site and click the star to bookmark the site. Name it what you want and click more. Where you see the url box, copy and paste the scripts into the url box and save it. You are then done.</span>
+            </form>
+                <p dir="ltr" class="zfr3Q CDt4Ke " style="text-align: center;"><span class="C9DxTc " style="">To support this site, please click on the ad! This directly helps the site stay awesome!</span></p>
+                 </form>
+                <p dir="ltr" class="zfr3Q CDt4Ke " style=""><span class="C9DxTc " style="">Youtube bypass -</span></p>
+                 </form>
+                <span class="C9DxTc " style="">javascript:(function () {if (window.location.toString().includes('www.youtube.com/watch?v%27)) { window.open(%27https://www.youtube-nocookie.com/embed/%27 + window.location.toString().split(%27=%27)[1]) }})()&nbsp;</span>
+                 </form>
+                <p dir="ltr" class="zfr3Q CDt4Ke " style=""><span class="C9DxTc " style="">Inspect -</span></p>
+                <span class="C9DxTc " style="">
+javascript:(function () {     var script =  document.createElement('script');    script.src="//cdn.jsdelivr.net/npm/eruda";     document.body.appendChild(script);    script.onload = function () {         eruda.init()     } })();
+</span>
+                 </form>
+
+<p dir="ltr" class="zfr3Q CDt4Ke " style=""><span class="C9DxTc " style="">Calculator -</span></p>
+<span class="C9DxTc " style="">
+javascript:eval('function calc(){_o=prompt(_t,_z);if(_o!=\'\'&&_o!=null&&_o.toUpperCase()==_o.toLowerCase())_z=eval(_o);}');_t='JAVASCRIPTER.NET Calculator - Input the expression to be calculated:';_z='';calc();while(_o!=''&&_o!=null&&_o.toUpperCase()==_o.toLowerCase())calc()</span>
+        
+        </form>
+
+<p dir="ltr" class="zfr3Q CDt4Ke " style=""><span class="C9DxTc " style="">Edit text -</span></p>
+<span class="C9DxTc " style="">javascript:(document.body.contentEditable="false"==document.body.contentEditable)&&alert("Content is now editable!");</span>
+        </form>
+                <p dir="ltr" class="zfr3Q CDt4Ke " style=""><span class="C9DxTc " style="">Rain -</span></p>
+<span class="C9DxTc " style="">javascript: (function() {   var letter = prompt('What letter?%27);   var color = prompt(%27What color?%27);   var container = document.createElement(%27div%27);   document.body.appendChild(container);   container.style.position = %27fixed%27;   container.style.top = %270%27;   container.style.left = %270%27;   container.style.width = %27100%%27;   container.style.height = %27100%%27;   container.style.overflow = %27hidden%27;   container.style.pointerEvents = %27none%27;   function init() {       var injection = document.createElement(%27style%27);       document.body.appendChild(injection);       injection.innerHTML = %27@-webkit-keyframes snow {\nfrom {top:-1%;}\nto{top:121%;}}\n@-moz-keyframes snow {\nfrom {top: -1%;}\nto {top: 121%;}\n}%27;   }   init();   window.setInterval(createParticle, 0);   timeChoices = [10, 5, 6, 20, 9, 0, 1];   function destroy(evt) {       container.removeChild(evt.target);   }   function createParticle() {       var particle = document.createElement(%27span%27);       var randomSpeed = timeChoices[Math.floor(Math.random() * timeChoices.length)];       particle.innerHTML = letter;       particle.className = %27flake%27;       particle.style.position = %27absolute%27;       particle.style.color = color;       particle.style.backgroundColor = %27transparent%27;       particle.style.width = %27200px%27;       particle.style.height = %27200px%27;       particle.style.pointerEvents = %27none%27;       particle.style.right = Math.random() * 100 + %27%%27;       particle.style.borderRadius = %27120%%27;       particle.style.WebkitAnimation = %27snow %27 + randomSpeed + %27s linear%27;       container.appendChild(particle);       particle.addEventListener(%27webkitAnimationEnd%27, destroy);   }})()&nbsp;</span>
+            </form>
+                <p dir="ltr" class="zfr3Q CDt4Ke " style=""><span class="C9DxTc " style="">History Flooder -</span></p>
+<span class="C9DxTc " style="">javascript:var num=prompt("How Times Do You Want This Page To Show Up In your History?\Developed By:  Schoolcheats on  YT");done=false;x=window.location.href;for (var i=1; i<=num; i++){history.pushState(0, 0, i==num?x:i.toString());if(i==num){done=true}}if(done===true){alert("Flooding Successful!\n "+window.location.href+" \nIs Now In Your History "+num+(num==1?" time.":" Times. \nDeveloped By: Schoolcheats on  YT"))}</span>
+                </form>
+                
+
+          </body> 
+</html>  

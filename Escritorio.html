@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu título de página</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Evita la barra de desplazamiento vertical */
+        }
+
+        #container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #localImage {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            position: absolute;
+            bottom: 0;
+            z-index: 1; /* Asegura que la imagen local esté sobre el fondo */
+        }
+
+        #contextMenu {
+                background-color: black; /* Cambia el color del menú a negro */
+                    border-radius: 10px; /* Redondea los bordes del menú */
+                    color: white; /* Cambia el color del texto */
+                    position: absolute;
+        }
+
+        #contextMenu div {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+            #brightness-menu {
+                display: none;
+                background-color: #333; /* Color de fondo del menú de brillo */
+                color: white;
+                padding: 10px;
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                border-radius: 5px;
+            }
+
+            input[type="range"] {
+                width: 100%;
+                margin-top: 5px;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- Contenedor para la imagen local -->
+    <div id="container">
+        <img id="localImage" src="local.jpg" alt="Imagen local">
+    </div>
+
+    <div id="contextMenu">
+        <div id="option1">Fondo desde URL</div>
+        <div id="option2">Fondo desde Archivo</div>
+    </div>
+
+    <script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+
+            var contextMenu = document.getElementById('contextMenu');
+            contextMenu.style.left = e.pageX + 'px';
+            contextMenu.style.top = e.pageY + 'px';
+            contextMenu.style.display = 'block';
+
+            document.addEventListener('click', function closeMenu() {
+                contextMenu.style.display = 'none';
+                document.removeEventListener('click', closeMenu);
+            });
+        });
+
+        document.getElementById('option1').addEventListener('click', function () {
+            var imageUrl = prompt('Por favor, ingresa la URL de la nueva imagen de fondo:');
+            if (imageUrl) {
+                document.body.style.backgroundImage = 'url(' + imageUrl + ')';
+                localStorage.setItem('customBackground', imageUrl);
+            } else {
+                document.body.style.backgroundImage = 'url(hola.png)';
+                localStorage.removeItem('customBackground');
+            }
+        });
+
+        document.getElementById('option2').addEventListener('click', function () {
+            var input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.click();
+
+            input.addEventListener('change', function () {
+                var file = input.files[0];
+                if (file) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        var imageData = e.target.result;
+                        document.body.style.backgroundImage = 'url(' + imageData + ')';
+                        localStorage.setItem('customBackground', imageData);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    document.body.style.backgroundImage = 'url(hola.png)';
+                    localStorage.removeItem('customBackground');
+                }
+            });
+        });
+
+        // Recuperar imagen personalizada al cargar la página
+        var storedBackground = localStorage.getItem('customBackground');
+        if (storedBackground) {
+            document.body.style.backgroundImage = 'url(' + storedBackground + ')';
+        } else {
+            document.body.style.backgroundImage = 'url(hola.png)';
+        }
+
+        // Activar pantalla completa al hacer clic en cualquier parte de la página
+        document.addEventListener('click', function () {
+            var elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+            } else if (elem.mozRequestFullScreen) { /* Firefox */
+                elem.mozRequestFullScreen();
+            } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) { /* IE/Edge */
+                elem.msRequestFullscreen();
+            }
+        });
+
+            document.addEventListener('DOMContentLoaded', (event) => {
+                // Ejecuta la función para poner la página en pantalla completa automáticamente
+                toggleFullScreen();
+            });
+
+            function toggleFullScreen() {
+                const element = document.documentElement;
+                const requestFullscreen = element.requestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen || element.msRequestFullscreen;
+
+                if (requestFullscreen) {
+                    requestFullscreen.call(element);
+                }
+            }
+
+
+            document.addEventListener('DOMContentLoaded', () => {
+                const brightnessMenu = document.createElement('div');
+                brightnessMenu.className = 'brightness-menu';
+                brightnessMenu.innerHTML = `
+                    <label for="brightnessRange">Brillo:</label>
+                    <input type="range" id="brightnessRange" min="0" max="100" value="100">
+                `;
+
+                document.body.appendChild(brightnessMenu);
+
+                const brightnessRange = document.getElementById('brightnessRange');
+
+                brightnessRange.addEventListener('input', () => {
+                    const brightnessValue = brightnessRange.value;
+                    document.body.style.filter = `brightness(${brightnessValue}%)`;
+                });
+
+                document.addEventListener('click', (event) => {
+                    const isClickInside = brightnessMenu.contains(event.target);
+                    if (!isClickInside) {
+                        brightnessMenu.style.display = 'none';
+                    }
+                });
+
+                document.addEventListener('contextmenu', (event) => {
+                    brightnessMenu.style.display = 'block';
+                    brightnessMenu.style.left = `${event.pageX}px`;
+                    brightnessMenu.style.top = `${event.pageY}px`;
+                    event.preventDefault();
+                });
+            });
+    </script>
+
+</body>
+</html>

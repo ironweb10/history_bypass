@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Texto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #editor {
+            width: 100%;
+            height: 80vh;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            padding: 10px;
+            background-color: #fff;  /* Fondo por defecto blanco */
+            color: #000;  /* Texto por defecto negro */
+        }
+
+        button {
+            font-size: 16px;
+            margin: 5px;
+            padding: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <button onclick="cambiarTema()">Cambiar Tema</button>
+    <button onclick="abrirArchivo()">Abrir</button>
+    <button onclick="guardarArchivo()">Guardar</button>
+    <button onclick="guardarComo()">Guardar Como</button>
+
+    <textarea id="editor"></textarea>
+
+    <script>
+        var editor = document.getElementById('editor');
+        var archivoActual;  // Variable para realizar un seguimiento del archivo actualmente abierto
+
+        function cambiarTema() {
+            var body = document.body;
+            var editor = document.getElementById('editor');
+
+            if (body.style.backgroundColor === 'black') {
+                body.style.backgroundColor = '#fff';
+                editor.style.backgroundColor = '#fff';
+                editor.style.color = '#000';
+            } else {
+                body.style.backgroundColor = 'black';
+                editor.style.backgroundColor = 'black';
+                editor.style.color = '#fff';
+            }
+        }
+
+        function abrirArchivo() {
+            var input = document.createElement('input');
+            input.type = 'file';
+
+            input.onchange = function () {
+                var fileReader = new FileReader();
+
+                fileReader.onload = function () {
+                    editor.value = fileReader.result;
+                    archivoActual = input.files[0];  // Guardar el archivo actualmente abierto
+                    guardarContenido();
+                };
+
+                fileReader.readAsText(input.files[0]);
+            };
+
+            input.click();
+        }
+
+        function guardarArchivo() {
+            if (archivoActual) {
+                var blob = new Blob([editor.value], { type: 'application/javascript' });
+                var link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = archivoActual.name;  // Usar el nombre original del archivo
+                link.click();
+            } else {
+                alert("No se ha abierto ningún archivo. Utiliza 'Guardar Como' para guardar el archivo.");
+            }
+        }
+
+        function guardarComo() {
+            var blob = new Blob([editor.value], { type: 'application/javascript' });
+            var link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.value = archivoActual ? archivoActual.name : 'archivo.js';  // Usar el nombre original si está disponible
+            input.placeholder = 'archivo.js';
+
+            input.onchange = function () {
+                link.download = input.value.endsWith('.js') ? input.value : input.value + '.js';
+                link.click();
+            };
+
+            input.click();
+        }
+
+        function guardarContenido() {
+            localStorage.setItem('contenido', editor.value);
+        }
+
+        function cargarContenido() {
+            var contenidoGuardado = localStorage.getItem('contenido');
+            if (contenidoGuardado) {
+                editor.value = contenidoGuardado;
+            }
+        }
+
+        cargarContenido();
+
+        editor.addEventListener('input', function() {
+            guardarContenido();
+        });
+    </script>
+
+</body>
+</html>
